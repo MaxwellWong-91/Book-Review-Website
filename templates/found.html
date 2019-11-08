@@ -1,0 +1,32 @@
+{%extends "layout2.html" %}
+{%block title %}
+Found
+{% endblock %}
+
+
+{%block body%}
+<h1>Search successful!</h1>
+<p>Here are the top 10 matches we were able to find.</p>
+<table class = "table table-hover table-bordered">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    {% for book in found %}
+    <tbody>
+        <tr>
+            <td>{{ book[0] }}</td>
+            <td> <a class = "nav-link" href = "{{ url_for( 'bookPage', isbn = book[0], title = book[1])  }}">{{ book[1] }}</a> </td>
+            <td>{{ book[2] }}</td>
+            <td>{{ book[3] }}</td> 
+        </tr>
+    </tbody>
+    {% endfor %}
+    
+</table>
+
+{% endblock %}

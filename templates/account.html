@@ -1,0 +1,18 @@
+{%extends "layout2.html" %}
+{%block title %}
+{{ username }}
+{% endblock %}
+
+
+{%block body%}
+<h1>Welcome {{username}}!</h1>
+<p>Please search for a book you would like to review.</p>
+<form action = {{ url_for("searchResult") }} method = "POST">
+    <div class = "form-group">
+        <input type = "text" name = "search" placeholder= "Please enter an author, book title, or isbn" size = 60 required>
+        <small id = "help" class = "form-text text-muted">Search entries are case sensitive.</small>
+        <button type = "submit">Search</button>
+    </div>
+</form>
+
+{% endblock %}

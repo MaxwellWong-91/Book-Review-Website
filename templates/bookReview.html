@@ -1,0 +1,37 @@
+{%extends "layout2.html" %}
+{%block title %}
+{{title}}
+{% endblock %}
+
+{%block body%}
+<h1>{{title}}</h1>
+<ul>
+    <li>Average Rating: {{averageRating}}</li>
+    <li>Total Reviews: {{totalReviews}}</li>
+    {% if review|length > 0 %}
+    <li>Your Rating: {{ review[0] }}</li>
+    <li>Your Review: {{ review[1] }}</li>
+</ul>
+    {% else %}
+    <p>You have not submitted a review for this book yet. You may submit up to one review per book.</p>
+    <form action = {{ url_for("bookPage", isbn = isbn, title = title) }} method = "POST">
+        <div class = "form-group">
+            <label class="my-1 mr-2" for="rating">How would you rate this book?</label>
+            <select class="custom-select my-1 mr-sm-2" id="rating" name = "rating" required>
+                <option selected="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class = "form-group">
+            <label class="my-1 mr-2" for="review">Write a review.</label>
+            <textarea class = "form-control" id = "review" name = "review" rows = "3" required></textarea>
+            <small for = "review">Please limit your response to 400 characters.</small>
+        </div>
+        <button type = "submit">Leave review</button>
+    </form>
+    {% endif %}
+
+{% endblock %}
