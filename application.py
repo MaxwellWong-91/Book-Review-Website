@@ -5,11 +5,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import requests
-"""
-$env:FLASK_APP = "application.py"
-$env:DATABASE_URL = "postgres://sjuqziiecivtcn:9eaff364ca2e154671da652d9d6cecf7e4d1cae777517e3f64ab4360a09d3dff@ec2-107-20-243-220.compute-1.amazonaws.com:5432/df8s1rv3i2dqi"
-$env:FLASK_DEBUG = 1
-"""
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -50,7 +46,6 @@ def registration():
    
     # check is username exists already
     if not (db.execute("SELECT username FROM accounts WHERE EXISTS (SELECT username accounts WHERE username = (:username))", {"username": username}).fetchone() is None):   
-        #print (db.execute("SELECT username FROM accounts WHERE EXISTS (SELECT username accounts WHERE username = (:username))", {"username": username}).fetchone() is None) 
         return (render_template("failure.html", error = "Failed to create account", message = "This username already exists."))
     # get password
     password = request.form.get("password")
@@ -86,9 +81,6 @@ def accountPage():
     # get password
     password = request.form.get("password")
     
-
-    print(f"username: {username}")
-    print(f"password: {password}")
     # check if account credentials match
     if (db.execute("SELECT username, password FROM accounts WHERE EXISTS (SELECT username, password accounts WHERE username = (:username) AND password = (:password))", 
         {"username": username, "password": password}).fetchone() is None):
@@ -159,7 +151,7 @@ def bookPage(title, isbn):
     else:
         review = list(review)
 
-    print (review)
+    
     
     return (render_template("bookReview.html", title = title, isbn = isbn,
                             averageRating = data.get("books")[0].get("average_rating"), 
@@ -173,7 +165,7 @@ def bookApi(isbn):
     if data is None:
         return jsonify({"error": "We were unable to find this book"}), 404
 
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "HJOvd2AhDAvuwjhlhbg", "isbns": isbn})
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "123", "isbns": isbn})
     # check if call returns
     if (res.status_code != 200):
         return jsonify({"error": "We were unable to find reviews for this book"}), 404
@@ -181,8 +173,6 @@ def bookApi(isbn):
     print (type(res))
     res = res.json()
    
-
-    print (data)
     return jsonify( {"title": data[0],
                      "author": data[1],
                      "year": data[2],
